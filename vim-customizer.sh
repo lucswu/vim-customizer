@@ -74,8 +74,6 @@ function tab_settings() {
         read option
     done
 }
-
-
 function general_settings() {
   printf "Welcome to the General Settings menu!\n"
 
@@ -96,28 +94,86 @@ function general_settings() {
     case "$choice" in
       1)
         # Enable syntax highlighting
-        printf "Enabling syntax highlighting...\n"
-        echo "syntax on" >> ~/.vimrc
+        if ! grep -q "syntax on" ~/.vimrc; then
+          printf "Enabling syntax highlighting...\n"
+          echo "syntax on" >> ~/.vimrc
+        else
+          printf "Syntax highlighting is already enabled.\n"
+          printf "Do you want to disable syntax highlighting? (y/n): "
+          read disable_choice
+          if [ "$disable_choice" = "y" ]; then
+            sed -i '/syntax on/d' ~/.vimrc
+            printf "Syntax highlighting is disabled.\n"
+          else
+            printf "Leaving syntax highlighting enabled.\n"
+          fi
+        fi
         ;;
       2)
         # Enable line numbers
-        printf "Enabling line numbers...\n"
-        echo "set number" >> ~/.vimrc
+        if ! grep -q "set number" ~/.vimrc; then
+          printf "Enabling line numbers...\n"
+          echo "set number" >> ~/.vimrc
+        else
+          printf "Line numbers are already enabled.\n"
+          printf "Do you want to disable line numbers? (y/n): "
+          read disable_choice
+          if [ "$disable_choice" = "y" ]; then
+            sed -i '/set number/d' ~/.vimrc
+            printf "Line numbers are disabled.\n"
+          else
+            printf "Leaving line numbers enabled.\n"
+          fi
+        fi
         ;;
       3)
         # Enable cursor line
-        printf "Enabling cursor line...\n"
-        echo "set cursorline" >> ~/.vimrc
+        if ! grep -q "set cursorline" ~/.vimrc; then
+          printf "Enabling cursor line...\n"
+          echo "set cursorline" >> ~/.vimrc
+        else
+          printf "Cursor line is already enabled.\n"
+          printf "Do you want to disable cursor line? (y/n): "
+          read disable_choice
+          if [ "$disable_choice" = "y" ]; then
+            sed -i '/set cursorline/d' ~/.vimrc
+            printf "Cursor line is disabled.\n"
+          else
+            printf "Leaving cursor line enabled.\n"
+          fi
+        fi
         ;;
       4)
         # Enable cursor column
-        printf "Enabling cursor column...\n"
-        echo "set cursorcolumn" >> ~/.vimrc
+        if ! grep -q "set cursorcolumn" ~/.vimrc; then
+          printf "Enabling cursor column...\n"
+          echo "set cursorcolumn" >> ~/.vimrc
+        else
+          printf "Cursor column is already enabled.\n"
+          printf "Do you want to disable cursor column? (y/n): "
+          read disable_choice
+          if [ "$disable_choice" = "y" ]; then
+            sed -i '/set cursorcolumn/d' ~/.vimrc
+            printf "Cursor column is disabled.\n"
+          else
+            printf "Leaving cursor column enabled.\n"
+          fi
+        fi
         ;;
-      5)
+	5)
         # Disable line wrapping
-        printf "Disabling line wrapping...\n"
-        echo "set nowrap" >> ~/.vimrc
+        if grep -q "set nowrap" ~/.vimrc; then
+          printf "Line wrapping is currently enabled. Do you want to disable it? [y/N]: "
+          read disable_choice
+          if [[ $disable_choice =~ ^[Yy]$ ]]; then
+            printf "Disabling line wrapping...\n"
+            sed -i '/set nowrap/d' ~/.vimrc
+          else
+            printf "Line wrapping is still enabled.\n"
+          fi
+        else
+          printf "Line wrapping is already disabled.\n"
+        fi
         ;;
       *)
         # Invalid option
@@ -125,7 +181,8 @@ function general_settings() {
         ;;
     esac
 
-    # Prompt the user for the next choice
+
+# Prompt the user for the next choice
     printf "\nPlease select a setting to modify:\n"
     printf "\t[1] Enable syntax highlighting\n"
     printf "\t[2] Enable line numbers\n"
