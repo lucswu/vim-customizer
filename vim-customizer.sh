@@ -89,7 +89,10 @@ function general_settings() {
     printf "\t[3] Enable cursor line\n"
     printf "\t[4] Enable cursor column\n"
     printf "\t[5] Disable line wrapping\n"
-    printf "\t[<Enter> or CTRL+D] to Quit\n"
+    printf "\t[6] Enable/disable override of ignorecase when searching for capital letters\n" 
+printf "\t[7] Enable ignorecase/\n"
+printf "\t[8] Enable/disable highlighting when doing a search\n"
+	 printf "\t[<Enter> or CTRL+D] to Quit\n"
 
     # Read the user's choice
     read choice
@@ -167,19 +170,78 @@ function general_settings() {
             ;;
         5)
             # Disable line wrapping
-            if grep -q "set nowrap" .vimrc; then
+            if ! grep -q "set nowrap" .vimrc; then
                 printf "Line wrapping is currently enabled. Do you want to disable it? [y/N]: "
                 read disable_choice
                 if [[ $disable_choice =~ ^[Yy]$ ]]; then
                     printf "Disabling line wrapping...\n"
-                    sed -i '/set nowrap/d' .vimrc
-                else
-                    printf "Line wrapping is still enabled.\n"
+                 echo "set nowrap" >> .vimrc
+		else
+                    # Prompt the user for the next choice
+			 printf "Line wrapping is still enabled.\n"
                 fi
             else
-                printf "Line wrapping is already disabled.\n"
+                printf "Line wrapping is already disabled, do you want to enable it?.\n"
+                read disable_choice
+                if [[ $disable_choice =~ ^[Yy]$ ]]; then
+                    printf "Enabling  line wrapping...\n"
+                     sed -i '/set nowrap/d' .vimrc
+		else
+                    # Prompt the user for the next choice
+                         printf "Line wrapping is still disabled.\n"
+                fi
+
             fi
             ;;
+	6) 
+            # Enable/disable override of ignorecase when searching for capital letters
+            if ! grep -q "set smartcase" .vimrc; then
+                printf "Enabling override of ignorecase when searching for capital letters...\n"
+                echo "set smartcase" >>.vimrc
+            else
+                printf "Override of ignorecase when searching for capital letters is already enabled.\n"
+                printf "Do you want to disable it? (y/n): "
+                read disable_choice
+                if [ "$disable_choice" = "y" ]; then
+                    sed -i '/set smartcase/d' .vimrc
+                    printf "Override of ignorecase when searching for capital letters is disabled.\n"
+                else
+                    printf "Leaving override of ignorecase when searching for capital letters enabled.\n"
+                fi
+            fi
+            ;;
+	7)
+	if ! grep -q "set noignorecase" .vimrc; then
+        printf "Enabling case sensitive search...\n"
+        echo "set noignorecase" >>.vimrc
+    else
+        printf "Case sensitive search is already enabled.\n"
+        printf "Do you want to disable case sensitive search? (y/n): "
+        read disable_choice
+        if [ "$disable_choice" = "y" ]; then
+            sed -i '/set noignorecase/d' .vimrc
+            printf "Case sensitive search is disabled.\n"
+        else
+            printf "Leaving case sensitive search enabled.\n"
+        fi
+    fi
+    ;;	
+	8)
+    if ! grep -q "set hlsearch" .vimrc; then
+        printf "Enabling search highlighting...\n"
+	echo "set hlsearch" >>.vimrc
+    else
+        printf "Search highlighting is already enabled.\n"
+        printf "Do you want to disable search highlighting? (y/n): "
+        read disable_choice
+        if [ "$disable_choice" = "y" ]; then
+            sed -i '/set hlsearch/d' .vimrc
+            printf "Search highlighting is disabled.\n"
+        else
+            printf "Leaving search highlighting enabled.\n"
+        fi
+    fi
+    ;;
         *)
             # Invalid option
             printf "Invalid Option.\n"
@@ -192,7 +254,10 @@ function general_settings() {
         printf "\t[3] Enable cursor line\n"
         printf "\t[4] Enable cursor column\n"
         printf "\t[5] Disable line wrapping\n"
-        printf "\t[<Enter> or CTRL+D] to Quit\n"
+	printf "\t[6] Enable/disable override of ignorecase when searching for capital letters\n"
+        printf "\t[7] Set ignorecase\n"
+	printf "\t[8] Enable/disable highlighting when doing a search\n"
+	printf "\t[<Enter> or CTRL+D] to Quit\n"
         read choice
     done
 
