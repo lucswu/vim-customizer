@@ -27,11 +27,12 @@ function tab_settings() {
         printf "\t3) Expandtab: On"
     fi
 
+    # Edit the settings here
     printf "\nWhat settings would you like to edit? Please type the number here (hit enter to exit): "
     read option
     if [ ! -z "$option" ]; then
         case "$option" in
-        1)
+        1) # Edit the tabstop settings
             printf "\nPlease enter your desired tabstop: "
             read val
             if [ $ts != 0 ]; then
@@ -42,7 +43,7 @@ function tab_settings() {
             fi
             printf "Tabstop changed to $val!\n"
             ;;
-        2)
+        2) # Edit the shiftwidth settings
             printf "\nPlease enter your desired shiftwidth: "
             read val
             if [ $sw != 0 ]; then
@@ -53,7 +54,7 @@ function tab_settings() {
             fi
             printf "Shiftwidth changed to $val!\n"
             ;;
-        3)
+        3) # Edit the expandtab setting
             printf "\nWould you like Expandtab on? (Y/N): "
             read opt
             case "$opt" in
@@ -73,7 +74,7 @@ function tab_settings() {
                 ;;
             esac
             ;;
-        *)
+        *) # Invalid options
             printf "\nInvalid option. Please choose a number 1-3!\n"
             ;;
         esac
@@ -145,9 +146,12 @@ function general_settings() {
 
 # Standard Menu
 function menu() {
+    # Print welcome menu
     printf "\nWelcome to the LP vim customizer! Here, we've set up easy ways to change your vim settings, especially for beginners! What would you like to do?\n"
     printf "\t[1] Edit General Settings\n\t[2] Edit Tab Settings\n\t[<Enter> or CTRL+D] to Quit\n"
     read option
+
+    # Loop, allowing users to continue to edit settings as they like
     while [ ! -z "$option" ]; do
         case "$option" in
         1)
@@ -164,25 +168,29 @@ function menu() {
         printf "\t[1] Edit General Settings\n\t[2] Edit Tab Settings\n\t[<Enter> or CTRL+D] to Quit\n"
         read option
     done
+
+    # Exit statement
     printf "Thanks for using the LP vim customizer!\n"
 }
 
+# Function that checks for the existence of a .vimrc file. If nonexistent, it prompts the user to either navigate to the desired directory or to create the file.
 function start() {
     if [ ! -f ".vimrc" ]; then
+        # No .vimrc file
         printf "\nYou currently do not have a .vimrc file in this folder. Would you like to [1] Create a .vimrc file, or [2] Exit the program and navigate to the folder with a .vimrc file? "
         read option
         while [ ! -z "$option" ]; do
             case "$option" in
-            1)
+            1) # Create a new .vimrc file
                 touch .vimrc
                 menu
                 break
                 ;;
-            2)
+            2) # User chooses to navigate to a proper folder
                 printf "\nShutting down...\n"
                 break
                 ;;
-            *)
+            *) # Bad option, try again
                 printf "\nInvalid Option.\n"
                 printf "\nYou currently do not have a .vimrc file in this folder. Would you like to [1] Create a .vimrc file, or [2] Exit the program and navigate to the folder with a .vimrc file? "
                 read option
@@ -190,6 +198,7 @@ function start() {
             esac
         done
     else
+        # .vimrc file found, go to the main menu
         menu
     fi
 }
