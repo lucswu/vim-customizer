@@ -15,10 +15,71 @@ function tab_settings() {
     printf "\tExpandtab"
 }
 
+
 function general_settings() {
-    printf "WIP general_settings!"
-    # https://www.freecodecamp.org/news/vimrc-configuration-guide-customize-your-vim-editor/
+  printf "Welcome to the General Settings menu!\n"
+
+  # List all the possible settings that the user can modify
+  printf "Please select a setting to modify:\n"
+  printf "\t[1] Enable syntax highlighting\n"
+  printf "\t[2] Enable line numbers\n"
+  printf "\t[3] Enable cursor line\n"
+  printf "\t[4] Enable cursor column\n"
+  printf "\t[5] Disable line wrapping\n"
+  printf "\t[<Enter> or CTRL+D] to Quit\n"
+
+  # Read the user's choice
+  read choice
+
+  # Process the user's choice
+  while [ ! -z "$choice" ]; do
+    case "$choice" in
+      1)
+        # Enable syntax highlighting
+        printf "Enabling syntax highlighting...\n"
+        echo "syntax on" >> ~/.vimrc
+        ;;
+      2)
+        # Enable line numbers
+        printf "Enabling line numbers...\n"
+        echo "set number" >> ~/.vimrc
+        ;;
+      3)
+        # Enable cursor line
+        printf "Enabling cursor line...\n"
+        echo "set cursorline" >> ~/.vimrc
+        ;;
+      4)
+        # Enable cursor column
+        printf "Enabling cursor column...\n"
+        echo "set cursorcolumn" >> ~/.vimrc
+        ;;
+      5)
+        # Disable line wrapping
+        printf "Disabling line wrapping...\n"
+        echo "set nowrap" >> ~/.vimrc
+        ;;
+      *)
+        # Invalid option
+        printf "Invalid Option.\n"
+        ;;
+    esac
+
+    # Prompt the user for the next choice
+    printf "\nPlease select a setting to modify:\n"
+    printf "\t[1] Enable syntax highlighting\n"
+    printf "\t[2] Enable line numbers\n"
+    printf "\t[3] Enable cursor line\n"
+    printf "\t[4] Enable cursor column\n"
+    printf "\t[5] Disable line wrapping\n"
+    printf "\t[<Enter> or CTRL+D] to Quit\n"
+    read choice
+  done
+
+  printf "\nFinished modifying General Settings.\n"
 }
+
+
 
 # Standard Menu
 function menu() {
