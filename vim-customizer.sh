@@ -40,4 +40,31 @@ function menu() {
     printf "Thanks for using the LP vim customizer!\n"
 }
 
-menu
+function start() {
+    if [ ! -f ".vimrc" ]; then
+        printf "\nYou currently do not have a .vimrc file in this folder. Would you like to [1] Create a .vimrc file, or [2] Exit the program and navigate to the folder with a .vimrc file? "
+        read option
+        while [ ! -z "$option" ]; do
+            case "$option" in
+            1)
+                touch .vimrc
+                menu
+                break
+                ;;
+            2)
+                printf "\nShutting down...\n"
+                break
+                ;;
+            *)
+                printf "\nInvalid Option.\n"
+                printf "\nYou currently do not have a .vimrc file in this folder. Would you like to [1] Create a .vimrc file, or [2] Exit the program and navigate to the folder with a .vimrc file? "
+                read option
+                ;;
+            esac
+        done
+    else
+        menu
+    fi
+}
+
+start
