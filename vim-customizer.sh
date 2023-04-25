@@ -10,6 +10,7 @@ function tab_settings() {
 
 function general_settings() {
     printf "WIP general_settings!"
+    # https://www.freecodecamp.org/news/vimrc-configuration-guide-customize-your-vim-editor/
 }
 
 # Standard Menu
