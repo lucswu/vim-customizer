@@ -5,7 +5,14 @@ function color_scheme() {
 }
 
 function tab_settings() {
-    printf "WIP tab_settings!"
+    printf "\nWelcome to the tab settings editor. Here, you can edit your tab sizing, whether or not you use the tab character, and your shiftwidth."
+    # tabstop=$()
+    # shiftwidth=$()
+    expandtab=$(grep -E "set expandtab" .vimrc | wc -l)
+    printf "\nHere are your current settings:\n"
+    printf "\tTabstop: $tabstop\n"
+    printf "\tShiftwidth: $shiftwidth\n"
+    printf "\tExpandtab"
 }
 
 function general_settings() {
