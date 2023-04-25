@@ -90,7 +90,7 @@ function general_settings() {
     printf "\t[4] Enable cursor column\n"
     printf "\t[5] Disable line wrapping\n"
     printf "\t[6] Enable/disable override of ignorecase when searching for capital letters\n"
-    printf "\t[7] Enable ignorecase/\n"
+    printf "\t[7] Enable ignorecase\n"
     printf "\t[8] Enable/disable highlighting when doing a search\n"
     printf "\t[<Enter> or CTRL+D] to Quit\n"
 
